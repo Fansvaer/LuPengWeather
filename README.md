@@ -1,2 +1,1 @@
-# LuPengWeather
-一款自主开发的天气预报APP
+自己的代码记录
