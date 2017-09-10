@@ -11,23 +11,29 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    ViewPager mViewPager;
+    LimitViewPager mViewPager;
 
-    private MyPagerAdapter adapter;
-
-    private List<View> mViews = new ArrayList<>();
+    PagerIndecator mIndicator;
 
     private List<String> mDatas;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mViewPager = (ViewPager) findViewById(R.id.view_pager);
-        adapter = new MyPagerAdapter(mViews);
-        mViewPager.setAdapter(adapter);
+        mViewPager = (LimitViewPager) findViewById(R.id.view_pager);
+        mIndicator = (PagerIndecator) findViewById(R.id.indicator);
+        mIndicator.setCommonCallBack(new CommonCallBack<Integer>() {
+            @Override
+            public void onEvent(Integer integer) {
+                mIndicator.removeEnd(integer);
+                mViewPager.deletEnd(integer);
+            }
+        });
         buildDatas();
         addPager();
+
     }
 
     private void addPager(){
@@ -39,10 +45,8 @@ public class MainActivity extends AppCompatActivity {
                 addPager();
             }
         });
-        mViews.add(testListView);
-        adapter.notifyDataSetChanged();
-        mViewPager.setCurrentItem(mViews.size()-1,true);
-
+        mViewPager.addPager(testListView);
+        mIndicator.addButton("测试按钮");
     }
 
     private void buildDatas(){
